@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { List, ListItem, ListItemText, Avatar, ListItemAvatar, Dialog, DialogTitle } from "@mui/material"
+import { List, ListItem, ListItemText, Avatar, ListItemAvatar, Dialog, DialogTitle, DialogContent } from "@mui/material"
 import { Image } from "@mui/icons-material"
 
 import { IssueDetail } from "../issue-detail/IssueDetail"
@@ -15,7 +15,7 @@ export const IssueList = ({ datasource = [] }) => {
     <>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         {datasource.map(issue => (
-          <ListItem key={issue.id} onClick={() => showIssueDetail(issue)}>
+          <ListItem key={issue.id} onClick={() => showIssueDetail(issue)} sx={{ cursor: "pointer" }}>
             <ListItemAvatar>
               <Avatar>
                 <Image />
@@ -28,7 +28,9 @@ export const IssueList = ({ datasource = [] }) => {
 
       <Dialog onClose={handleClose} open={!!issueDetail}>
         <DialogTitle>Issue Detail: {issueDetail?.title}</DialogTitle>
-        <IssueDetail issue={issueDetail} />
+        <DialogContent>
+          <IssueDetail issue={issueDetail} />
+        </DialogContent>
       </Dialog>
     </>
   )
