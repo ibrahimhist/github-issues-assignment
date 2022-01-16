@@ -31,10 +31,10 @@ export const IssueList: React.FC<IssueListProps> = ({ datasource = [], bookmarks
         {datasource.map((issue: IIssue) => {
           const bookmarked = isBookmarked(issue.id);
           return (
-            <ListItem key={issue.id} onClick={() => showIssueDetail(issue)} sx={{ cursor: 'pointer' }}>
+            <ListItem role="listitem" data-testid={'list-item-' + issue.id} key={issue.id} onClick={() => showIssueDetail(issue)} sx={{ cursor: 'pointer' }}>
               {!hideBookmark && (
-                <IconButton sx={{ mr: 1 }} onClick={(e) => handleBookmarked(e, issue)} color={bookmarked ? 'warning' : 'primary'}>
-                  {bookmarked ? <Star /> : <StarOutline />}
+                <IconButton data-testid={'bookmark-' + issue.id} sx={{ mr: 1 }} onClick={(e) => handleBookmarked(e, issue)} color={bookmarked ? 'warning' : 'primary'}>
+                  {bookmarked ? <Star data-testid={'bookmark-yes-' + issue.id} /> : <StarOutline data-testid={'bookmark-no-' + issue.id} />}
                 </IconButton>
               )}
 
@@ -47,7 +47,7 @@ export const IssueList: React.FC<IssueListProps> = ({ datasource = [], bookmarks
         })}
       </List>
 
-      <Dialog onClose={handleClose} open={!!issueDetail}>
+      <Dialog data-testid="detail-dialog" onClose={handleClose} open={!!issueDetail}>
         <DialogTitle>Issue Detail: {issueDetail?.title}</DialogTitle>
         <DialogContent>
           <IssueDetail issue={issueDetail} />
