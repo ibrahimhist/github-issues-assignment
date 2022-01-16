@@ -2,7 +2,7 @@ import React from 'react';
 
 import { FormControl, InputLabel, Select as MuiSelect, MenuItem, SelectProps as MuiSelectProps } from '@mui/material';
 
-export type SelectProps = MuiSelectProps & {
+export type SelectProps = Omit<MuiSelectProps, 'onChange'> & {
   label: string;
   value: string;
   onChange: (val: string) => void;
