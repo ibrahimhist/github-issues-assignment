@@ -15,16 +15,6 @@ const buildURLQuery = obj =>
 
 export const getGitHubIssueList = async (repoPath, page = 1, sort = "created", state = "all") => {
   const searchParams = buildURLQuery({ page, sort, state })
-  console.log(searchParams)
 
   return axios.get(`https://api.github.com/repos/${repoPath}/issues?${searchParams}`)
 }
-
-// export const getGitHubIssueList = async (repoPath, page = 1, sort = "created", state = "all") => {
-//     const searchParams = new URLSearchParams({ page, sort, state })
-//     console.log(searchParams)
-
-//     const { data } = await axios.get(`https://api.github.com/repos/${repoPath}/issues?${searchParams}`)
-
-//     return data
-//   }

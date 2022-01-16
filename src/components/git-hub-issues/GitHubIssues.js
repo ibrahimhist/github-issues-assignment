@@ -7,14 +7,6 @@ import { getGitHubIssueList } from "../../services/github.service"
 import { IssueList } from "./issue-list/IssueList"
 import { Select } from "../core/select/Select"
 
-// https://api.github.com/repos/${repoPath}/issues
-// https://docs.github.com/en/rest/reference/issues
-
-// sort : created, updated, comments
-// state: open, cloed, all
-// per_page 30 max 100
-// page = 1
-
 const sortOptions = [
   { label: "Created Date", value: "created" },
   { label: "Updated Date", value: "updated" },
@@ -23,10 +15,13 @@ const sortOptions = [
 
 export const GitHubIssues = () => {
   const [repoPath, setRepoPath] = useState("facebook/react")
+  const [prevRepoPath, setPrevRepoPath] = useState("")
+
   const [page, setPage] = useState(1)
   const [sortBy, setSortBy] = useState("created")
 
   const [issueList, setIssueList] = useState([])
+  const [bookmarkedIssues, setBookmarkedIssues] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -37,8 +32,10 @@ export const GitHubIssues = () => {
   const getIssues = (newPage, newSortBy) => {
     setLoading(true)
     setError(false)
+
     getGitHubIssueList(repoPath, newPage || page, newSortBy || sortBy)
       .then(response => {
+        if (prevRepoPath !== repoPath) setBookmarkedIssues([])
         setIssueList(response.data)
       })
       .catch(e => {
@@ -47,6 +44,7 @@ export const GitHubIssues = () => {
       })
       .finally(() => {
         setLoading(false)
+        setPrevRepoPath(repoPath)
       })
   }
 
@@ -61,6 +59,18 @@ export const GitHubIssues = () => {
   const handleSort = e => {
     setSortBy(e)
     getIssues(null, e)
+  }
+
+  const handleBookmark = issue => {
+    setBookmarkedIssues(prev => {
+      const currentIndex = prev.findIndex(x => x.id === issue.id)
+      const newBookmarks = [...prev]
+
+      if (currentIndex === -1) newBookmarks.push(issue)
+      else newBookmarks.splice(currentIndex, 1)
+
+      return newBookmarks
+    })
   }
 
   return (
@@ -85,7 +95,7 @@ export const GitHubIssues = () => {
             <Select label="Sorty By" value={sortBy} onChange={handleSort} datasource={sortOptions} />
           </Box>
           <Box sx={{ overflow: "auto" }}>
-            <IssueList datasource={issueList} />
+            <IssueList datasource={issueList} bookmarks={bookmarkedIssues} onChangeBookmark={handleBookmark} />
           </Box>
           <Pagination sx={{ justifyContent: "center" }} page={page} onChange={handlePaginationChange} color="primary" count={10} showFirstButton showLastButton />
         </>
