@@ -5,7 +5,7 @@ import { Star, StarOutline } from "@mui/icons-material"
 
 import { IssueDetail } from "../issue-detail/IssueDetail"
 
-export const IssueList = ({ datasource = [], bookmarks = [], onChangeBookmark }) => {
+export const IssueList = ({ datasource = [], bookmarks = [], onChangeBookmark, hideBookmark }) => {
   const [issueDetail, setIssueDetail] = useState()
 
   const showIssueDetail = issue => setIssueDetail(issue)
@@ -24,9 +24,11 @@ export const IssueList = ({ datasource = [], bookmarks = [], onChangeBookmark })
           const bookmarked = isBookmarked(issue.id)
           return (
             <ListItem key={issue.id} onClick={() => showIssueDetail(issue)} sx={{ cursor: "pointer" }}>
-              <IconButton sx={{ mr: 1 }} onClick={e => handleBookmarked(e, issue)} color={bookmarked ? "warning" : "primary"}>
-                {bookmarked ? <Star /> : <StarOutline />}
-              </IconButton>
+              {!hideBookmark && (
+                <IconButton sx={{ mr: 1 }} onClick={e => handleBookmarked(e, issue)} color={bookmarked ? "warning" : "primary"}>
+                  {bookmarked ? <Star /> : <StarOutline />}
+                </IconButton>
+              )}
 
               <ListItemAvatar>
                 <Avatar alt={issue.title}>{issue.title[0]}</Avatar>

@@ -1,11 +1,12 @@
 import React, { useState } from "react"
 
-import { Box, TextField, Pagination } from "@mui/material"
+import { Box, TextField, Pagination, Typography } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
 
 import { getGitHubIssueList } from "../../services/github.service"
 import { IssueList } from "./issue-list/IssueList"
 import { Select } from "../core/select/Select"
+import { BookmarkedIssuesButton } from "./bookmarked-issues-button/BookmarkedIssuesButton"
 
 const sortOptions = [
   { label: "Created Date", value: "created" },
@@ -74,7 +75,7 @@ export const GitHubIssues = () => {
   }
 
   return (
-    <Box sx={{ width: "100%", maxWidth: "500px", display: "grid", gridGap: 16, height: "100vh", padding: 2, margin: "0 auto", gridTemplateRows: "auto auto 1fr auto" }}>
+    <Box sx={{ width: "100%", maxWidth: "500px", display: "grid", gridGap: 16, height: "100vh", padding: 2, margin: "0 auto", gridTemplateRows: "auto auto auto 1fr auto" }}>
       <Box
         sx={{
           display: "grid",
@@ -93,6 +94,11 @@ export const GitHubIssues = () => {
         <>
           <Box>
             <Select label="Sorty By" value={sortBy} onChange={handleSort} datasource={sortOptions} />
+          </Box>
+          <Box>
+            <Typography variant="subtitle2">
+              Bookmark Count: <BookmarkedIssuesButton bookmarkedIssues={bookmarkedIssues} />
+            </Typography>
           </Box>
           <Box sx={{ overflow: "auto" }}>
             <IssueList datasource={issueList} bookmarks={bookmarkedIssues} onChangeBookmark={handleBookmark} />
