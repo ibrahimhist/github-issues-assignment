@@ -1,5 +1,7 @@
-import * as React from "react"
+import React from "react"
+
+import { GitHubIssues } from "../components/git-hub-issues/GitHubIssues"
 
 export default function Index() {
-  return <p>index JS</p>
+  return <GitHubIssues />
 }
