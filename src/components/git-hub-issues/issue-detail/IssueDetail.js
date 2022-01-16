@@ -13,6 +13,8 @@ export const IssueDetail = ({ issue }) => {
           {issue?.user?.login}
         </a>
       </Box>
+      <Box>{issue?.body}</Box>
+
       <Typography variant="h6">State</Typography>
       <Typography variant="subtitle2">{issue?.state}</Typography>
 

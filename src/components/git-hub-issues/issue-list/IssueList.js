@@ -21,7 +21,7 @@ export const IssueList = ({ datasource = [] }) => {
                 <Image />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={issue.title} secondary={issue.created_at} />
+            <ListItemText primary={issue.title} secondary={new Date(issue.created_at).toLocaleDateString()} />
           </ListItem>
         ))}
       </List>
